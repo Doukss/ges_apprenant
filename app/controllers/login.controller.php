@@ -1,0 +1,57 @@
+<?php
+require_once "../app/models/login.model.php";
+
+if (isset($_REQUEST["page"])) {
+    $page = $_REQUEST["page"];
+    $errors = [];
+
+
+    if ($page == "login") {
+        if ($_SERVER["REQUEST_METHOD"] === "GET") {
+            RenderView("security/login", [], "security.layout");
+        } elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
+            
+            $email = trim($_POST["email"] ?? '');
+            $mot_de_passe = trim($_POST["mot_de_passe"] ?? '');
+
+            if (empty($email)) {
+                $errors["email"] = "L'email est obligatoire.";
+            }
+            if (empty($mot_de_passe)) {
+                $errors["mot_de_passe"] = "Le mot de passe est obligatoire.";
+            }
+            if (empty($errors)) {
+                    $user = findUserConnect($email, $mot_de_passe);
+                    
+
+                if ($user) {
+                     
+                    $_SESSION["utilisateur"] = $user; // Stocke l'utilisateur dans la session
+                    switch ($user['role']) {
+                        case 'Admin':
+                            header("Location: " . WEBROOB . "?controllers=promotion&page=listePromotion");
+                            break;
+                        case 'Vigile':
+                            break;
+                        case 'Apprenant':
+                            
+                            break;
+                        default:
+                            header("Location: " . WEBROOB . "?controler=dashboard&page=dashboard");
+                            break;
+                    }
+                } else {
+                    $errors["email"] = "Email ou mot de passe incorrect.";
+                }
+            }
+            RenderView("security/login", ["errors" => $errors], "security.layout");
+            exit;
+        }
+    } elseif ($page == "deconnexion") {
+        session_unset();
+        session_destroy();
+        header("Location:" . WEBROOB);
+        exit;
+    }
+}
+RenderView("security/login", [], "security.layout");

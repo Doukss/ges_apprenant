@@ -1,25 +1,17 @@
 <?php
-verifyUserAuth();
-require_once "../boostrap/required.php";
+// promotion.controller.php
+require_once "../app/models/promotion.model.php";
+require_once "../app/models/model.php";
+require_once "../app/services/promotion.service.php";
 
-
-
-
-
-$page = isset($_GET["page"]) ? $_GET["page"] : "dashboard";
-$role = $_SESSION["user"]["role_name"];
-$data = ["role" => $role, "page" => $page];
-
+$page = $_REQUEST["page"];
 switch ($page) {
-    case 'dashboard':
-       
-        renderView("administrateur/dashboard", $data, "dashboard");
+    case "listePromotion":
+        showPromotionList();
         break;
-    case 'promotion':
 
-            renderView("administrateur/professeur", $data, "dashboard");
-            break;
-    default:
-        redirection("notFound", "error");
+        default:
+        header("Location: " . WEBROOB . "?controllers=promotion&page=listePromotion");     
         break;
-}
+
+    }
