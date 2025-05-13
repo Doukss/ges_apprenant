@@ -26,16 +26,12 @@ if (isset($_REQUEST["page"])) {
 
                 if ($user) {
                      
-                    $_SESSION["utilisateur"] = $user; // Stocke l'utilisateur dans la session
+                    $_SESSION["utilisateur"] = $user; 
                     switch ($user['role']) {
-                        case 'Admin':
+                        case 'admin':
                             header("Location: " . WEBROOB . "?controllers=promotion&page=listePromotion");
                             break;
-                        case 'Vigile':
-                            break;
-                        case 'Apprenant':
-                            
-                            break;
+    
                         default:
                             header("Location: " . WEBROOB . "?controler=dashboard&page=dashboard");
                             break;

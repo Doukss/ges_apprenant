@@ -3,12 +3,12 @@ function connectToDatabase(){
     $servername = "localhost";
     $username = "postgres";
     $password = "passer0412";
+    $port = 5432;
     $dbname = "ges_apprenant";
 
     try {
         $conn = new PDO("pgsql:host=$servername;port=$port;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully";
         return $conn;
     } catch(PDOException $e) {
         die("Connection failed: " . $e->getMessage());

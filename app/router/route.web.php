@@ -3,7 +3,7 @@ session_start();
 define ("WEBROOB","http://malick.mbodji.ecole221.sn:8000/?");
 require_once "../app/models/model.php";
 
-function run (){
+function route (){
     $controllers=[
         "promotion"=>"../app/controllers/promotion.controller.php",
         "login"=>"../app/controllers/login.controller.php"

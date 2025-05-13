@@ -32,14 +32,8 @@
         $role = $_SESSION["utilisateur"]["role"] ?? null;
 
         switch ($role) {
-            case "Admin":
+            case "admin":
                 require_once "../app/views/components/sidebar.html.php";
-                break;
-            case "Vigile":
-                require_once "../views/components/sidebarVi.html.php";
-                break;
-            case "Apprenant":
-                require_once "../views/components/sidebarApp.html.php";
                 break;
             default:
                 echo "<div class='p-4 text-red-500'>Rôle inconnu ou non connecté.</div>";
@@ -60,9 +54,9 @@
 
         <div class="flex items-center space-x-4 group cursor-pointer">
             <div class="relative">
-                <img src="https://img.freepik.com/photos-gratuite/avatar-androgyne-personne-queer-non-binaire_23-2151100279.jpg" 
+                <img src="https://img.freepik.com/vecteurs-libre/illustration-homme-noir-dessine-main_23-2149430455.jpg?uid=R133511354&ga=GA1.1.1175137119.1728139913&semt=ais_hybrid&w=740" 
                     alt="User" 
-                    class="w-10 h-10 rounded-full border-2 border-white shadow-md group-hover:border-primary transition duration-300">
+                    class="w-10 h-10 rounded-full border-2 border-red-600 shadow-md group-hover:border-primary transition duration-300">
                 <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div class="text-right">

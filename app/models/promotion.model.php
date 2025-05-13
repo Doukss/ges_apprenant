@@ -7,17 +7,17 @@ function findAllPromotion() {
     p.date_fin,
     p.statut,
     r.libelle AS referentiel,
-    COUNT(a.id_apprenant) AS nombre_apprenants
+    COUNT(a.id) AS nombre_apprenants
 FROM 
     promotion p
 LEFT JOIN 
-    promoref pr ON p.id_promotion = pr.id_promotion
+    referentiel_promotion pr ON p.id = pr.id_promotion
 LEFT JOIN 
-    referentiel r ON pr.id_referentiel = r.id_referentiel
+    referentiel r ON pr.id_referentiel = r.id
 LEFT JOIN 
-    apprenant a ON p.id_promotion = a.id_promotion
+    apprenant a ON p.id = a.id
 GROUP BY 
-    p.id_promotion, p.nom, p.date_debut, p.date_fin, p.statut, r.libelle
+    p.id, p.nom, p.date_debut, p.date_fin, p.statut, r.libelle
 ORDER BY 
     p.date_debut DESC;
     ";

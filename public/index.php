@@ -1,3 +1,3 @@
 <?php
 require_once "../app/router/route.web.php";
-run();
+route();
