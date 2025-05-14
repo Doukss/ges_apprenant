@@ -20,20 +20,19 @@ background-repeat: no-repeat;">
         <div class="text-center mb-6">
           <img src="assets/images/logo.png" alt="Logo" class="mx-auto w-16 mb-2">
           <h2 class="text-lg text-gray-600">Bienvenue sur</h2>
-          <h1 class="text-xl font-bold text-[#870E12]">Ecole supérieur professionel 221</h1>
-          <h2 class="text-2xl font-semibold text-gray-900 mt-2">Se connecter</h2>
+          <h1 class="text-xl text-red-700">Ecole supérieur professionel 221</h1>
+          <h2 class="text-2xl mt-2">Se connecter</h2>
         </div>
         <form class="space-y-4 " id="loginForm"  method="post">
                 <input type="hidden" name="controllers" value="login">
                 <input type="hidden" name="page" value="login">
                 <div>
-    <div class="relative flex items-center">
+    <div>
+       <label class="block text-sm font-medium text-gray-700 mb-1 ">Email</label>
+   
         <input name="email" type="text" placeholder="Entrer votre adresse mail"
             class="w-full border border-gray-300 px-4 py-2 pr-10 rounded focus:outline-none focus:ring-2 focus:ring-red-500" 
             value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" />
-        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <i class="ri-mail-line text-gray-400 text-lg"></i>
-        </div>
     </div>
     <?php if (!empty($errors['email'])): ?>
         <p name="emailError" class="mt-2 text-xs text-red-500 flex items-center ">
@@ -44,7 +43,7 @@ background-repeat: no-repeat;">
 
 <div>
     <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-    <input name="mot_de_passe" type="password" placeholder="Entrer votre mot de passe"
+    <input name="mot_de_passe" type="password" placeholder="••••••••"
         class="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500" />
     <?php if (!empty($errors['mot_de_passe'])): ?>
         <p name="passwordError" class="mt-2 text-xs text-red-500 flex items-center">
@@ -56,7 +55,7 @@ background-repeat: no-repeat;">
             <a href="#" id="oublie" class="text-sm text-[#870E12] hover:underline">Mot de passe oublié ?</a>
           </div>
           <button type="submit"
-            class="w-full bg-[#870E12] text-white py-2 rounded hover:bg-red-800 transition duration-200">
+            class="w-full bg-red-700 text-white py-2 rounded hover:bg-red-800 transition duration-200">
             Se connecter
           </button>
         </form>

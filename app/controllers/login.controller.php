@@ -1,5 +1,5 @@
 <?php
-require_once "../app/models/login.model.php";
+require_once "../app/boostrap/boostrap.php";
 
 if (isset($_REQUEST["page"])) {
     $page = $_REQUEST["page"];

@@ -1,13 +1,15 @@
 <?php
-// promotion.controller.php
-require_once "../app/models/promotion.model.php";
-require_once "../app/models/model.php";
-require_once "../app/services/promotion.service.php";
+require_once "../app/boostrap/boostrap.php";
 
 $page = $_REQUEST["page"];
 switch ($page) {
+    
     case "listePromotion":
-        showPromotionList();
+        $search = $_GET['search'] ?? '';
+        $promotions = findAllPromotion($search);
+        $stats = getDashboardStat();
+        showPromotionList($promotions, $stats);
+
         break;
 
         default:

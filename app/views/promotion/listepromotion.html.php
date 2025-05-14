@@ -1,3 +1,8 @@
+<?php
+$view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
+?>
+
+
 <div class="flex h-screen ">
   <main class="flex-1 ">
     <div class="p-6 overflow-y-auto h-[80vh] -mt-5">
@@ -12,7 +17,7 @@
         <p class="text-sm text-gray-500 mb-4">Gérer les promotions de l'école</p>
 
         <!-- Statistique-->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+<div id="cardContainer" class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-4 gap-6 <?= $view === 'liste' ?'hidden' : '' ?>">
           <div class="bg-red-700 text-[#F9CF98] p-4 rounded-lg text-center shadow">
             <p class="text-2xl font-bold">
             <?= isset($stats["total_apprenant"]) ? htmlspecialchars($stats["total_apprenant"]) : 0 ?>
@@ -40,8 +45,16 @@
         </div>
 
         <div class="flex justify-between items-center mb-4">
-          <input type="text" placeholder="Rechercher..." class="px-4 py-2 border rounded w-1/2 focus:outline-none focus:ring-2 focus:ring-orange-400">
-          <div class="flex gap-2">
+        <form method="GET" action="">
+         <input type="hidden" name="controllers" value="promotion">
+         <input type="hidden" name="page" value="listePromotion">
+    
+         <input type="text" name="search" placeholder="Rechercher une promotion..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="border px-2 py-1 rounded">
+    
+         <button type="submit" class="border border-gray-300 text-gray-400  px-4 py-1 rounded">Rechercher</button>
+        </form>
+
+          <div class="flex gap-2 p-6">
             <div>
               <select name="statusFilter" id="statusFilter" class="px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-400">
                 <option value="all">Tous</option>
@@ -49,17 +62,20 @@
                 <option value="inactive">Inactif</option>
               </select>
             </div>
-            <button id="cardViewBtn" class="bg-[#F9CF98] text-white p-2 rounded hover:bg-red-600 transition" aria-label="Vue grille">
-              Grille
-            </button>
-            <button id="tableViewBtn" class="bg-gray-200 hover:bg-red-600 p-2 rounded transition" aria-label="Vue liste">
-              Liste
-            </button>
+          <a href="?controllers=promotion&page=grille" class="bg-[#F9CF98] text-white p-2 rounded hover:bg-red-600 transition" aria-label="Vue grille">
+          Grille
+          </a>
+          <a href="?controllers=promotion&page=liste" class="bg-gray-200 hover:bg-red-600 p-2 rounded transition" aria-label="Vue liste">
+          Liste
+          </a>
+
           </div>
+          
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-6  ">
+        <div class="<?= $view === 'grille' ? 'grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-6' : 'hidden' ?>">
           <?php if (empty($promotions)): ?>
+            
             <div class="col-span-full py-16 text-center animate-pulse">
               <div class="mx-auto w-28 h-28 rounded-full bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center mb-6 shadow-inner">
                 <i class="fas fa-chalkboard-teacher text-4xl text-gray-300"></i>
@@ -103,9 +119,9 @@
                     </span>
                   </div>
                       <?= htmlspecialchars($promotion["referentiel"] ?? 'Non assigné') ?>
-                  <div class="bg-green-200 text-red-900 w-[20%] rounded text-center p-1">
-                  <p class="text-sm text-red-900 ">
-                      <?= htmlspecialchars($promotion["statut"] ?? 'Non défini') ?>
+                  <div >
+                  <p class="text-sm text-red-900">
+                     <span class="badge badge-soft badge-<?= colorState($promotion["statut"]) ?>"><?= htmlspecialchars($promotion["statut"] ?? 'Non défini') ?></span> 
                     </p>
                   </div>
                 </div>
@@ -114,7 +130,7 @@
           <?php endif; ?>
         </div>
 
-        <div id="tableContainer" class="hidden bg-white rounded-lg shadow overflow-hidden">
+        <div id="tableContainer" class="<?= $view === 'liste' ? '' : 'hidden' ?> bg-white rounded-lg shadow  overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>

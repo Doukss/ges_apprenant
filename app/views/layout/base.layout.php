@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script>
         tailwind.config = {
             theme: {
@@ -41,7 +42,7 @@
         }
         ?>
         <main class="flex-1">
-            <header class="flex justify-between items-center bg-white shadow-xl p-4 rounded-xl border border-gray-100 z-50">
+            <header class="flex justify-between items-center bg-white  p-4 rounded-xl border border-gray-100 z-50">
         <div class="relative w-1/3">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
