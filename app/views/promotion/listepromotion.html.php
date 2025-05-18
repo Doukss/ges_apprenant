@@ -51,7 +51,7 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
     
          <input type="text" name="search" placeholder="Rechercher une promotion..." value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="border px-2 py-1 rounded">
     
-         <button type="submit" class="border border-gray-300 text-gray-400  px-4 py-1 rounded">Rechercher</button>
+         <button type="submit" class="border border-gray-300 text-gray-400  px-4 py-1 rounded"><i class="ri-filter-3-line"></i></button>
         </form>
 
           <div class="flex gap-2 p-6">
@@ -62,11 +62,11 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
                 <option value="inactive">Inactif</option>
               </select>
             </div>
-          <a href="?controllers=promotion&page=grille" class="bg-[#F9CF98] text-white p-2 rounded hover:bg-red-600 transition" aria-label="Vue grille">
-          Grille
+          <a href="?controllers=promotion&page=grille" class="" aria-label="Vue grille">
+         <i class="ri-layout-grid-2-fill text-2xl"></i>
           </a>
-          <a href="?controllers=promotion&page=liste" class="bg-gray-200 hover:bg-red-600 p-2 rounded transition" aria-label="Vue liste">
-          Liste
+          <a href="?controllers=promotion&page=liste" class="" aria-label="Vue liste">
+          <i class="ri-list-unordered text-2xl"></i>
           </a>
 
           </div>

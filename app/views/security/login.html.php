@@ -21,7 +21,7 @@ background-repeat: no-repeat;">
           <img src="assets/images/logo.png" alt="Logo" class="mx-auto w-16 mb-2">
           <h2 class="text-lg text-gray-600">Bienvenue sur</h2>
           <h1 class="text-xl text-red-700">Ecole supérieur professionel 221</h1>
-          <h2 class="text-2xl mt-2">Se connecter</h2>
+          <h2 class="text-xl mt-2">Se connecter</h2>
         </div>
         <form class="space-y-4 " id="loginForm"  method="post">
                 <input type="hidden" name="controllers" value="login">
