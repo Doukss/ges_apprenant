@@ -1,70 +1,147 @@
-<div class="flex h-screen">
-  <main class="flex-1">
-    <div class="p-6 overflow-y-auto">
-      <div class="max-w-3xl mx-auto bg-[#F9EFEF] rounded-xl p-6">
-        <div class="mb-6">
-          <h1 class="text-2xl font-bold text-[#F9CF98]">Ajouter une promotion</h1>
-          <p class="text-sm text-gray-500">Remplissez les informations pour créer une nouvelle promotion</p>
-        </div>
+<!-- Bouton pour ouvrir le modal -->
+<button class="btn btn-primary" onclick="document.getElementById('modal-ajout-promotion').showModal()">Ajouter une promotion</button>
 
-        <form action="?controllers=promotion&action=store" method="POST" class="space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Nom de la promotion -->
-            <div>
-              <label for="promotion" class="block text-sm font-medium text-gray-700">Nom de la promotion</label>
-              <input type="text" name="promotion" id="promotion" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#F9CF98] focus:ring-[#F9CF98]">
-            </div>
-
-            <!-- Référentiel -->
-            <div>
-              <label for="referentiel" class="block text-sm font-medium text-gray-700">Référentiel</label>
-              <select name="referentiel" id="referentiel" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#F9CF98] focus:ring-[#F9CF98]">
-                <option value="">Sélectionner un référentiel</option>
-                <?php foreach ($referentiels as $ref): ?>
-                  <option value="<?= htmlspecialchars($ref['id']) ?>"><?= htmlspecialchars($ref['nom']) ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-
-            <!-- Date de début -->
-            <div>
-              <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
-              <input type="date" name="date_debut" id="date_debut" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#F9CF98] focus:ring-[#F9CF98]">
-            </div>
-
-            <!-- Date de fin -->
-            <div>
-              <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin</label>
-              <input type="date" name="date_fin" id="date_fin" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#F9CF98] focus:ring-[#F9CF98]">
-            </div>
-
-            <!-- Statut -->
-            <div>
-              <label for="statut" class="block text-sm font-medium text-gray-700">Statut</label>
-              <select name="statut" id="statut" required
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#F9CF98] focus:ring-[#F9CF98]">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="flex justify-end space-x-4">
-            <a href="?controllers=promotion&page=listePromotion" 
-              class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
-              Annuler
-            </a>
-            <button type="submit"
-              class="px-4 py-2 bg-[#F9CF98] text-[#87520E] rounded-md hover:bg-[#87520E] hover:text-[#F9CF98] transition">
-              Enregistrer
-            </button>
-          </div>
-        </form>
+<!-- Modal -->
+<dialog id="modal-ajout-promotion" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Ajouter une promotion</h3>
+    
+    <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
+      <div class="alert alert-error mb-4">
+        <ul class="list-disc list-inside">
+          <?php foreach ($_SESSION['errors'] as $error): ?>
+            <li><?= htmlspecialchars($error) ?></li>
+          <?php endforeach; ?>
+        </ul>
       </div>
-    </div>
-  </main>
-</div> 
+    <?php endif; ?>
+
+    <form action="?controllers=promotion&action=add" method="POST" enctype="multipart/form-data" class="space-y-4" id="promotionForm">
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Nom de la promotion</span>
+        </label>
+        <input type="text" name="promotion" id="promotion" required
+          value="<?= htmlspecialchars($_SESSION['form_data']['promotion'] ?? '') ?>"
+          class="input input-bordered w-full <?= isset($_SESSION['errors']['promotion']) ? 'input-error' : '' ?>"
+          minlength="3" maxlength="50">
+        <label class="label">
+          <span class="label-text-alt text-error" id="promotion-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Référentiel</span>
+        </label>
+        <select name="referentiel" id="referentiel" required
+          class="select select-bordered w-full <?= isset($_SESSION['errors']['referentiel']) ? 'select-error' : '' ?>">
+          <option value="">Sélectionner un référentiel</option>
+          <?php foreach ($referentiels as $ref): ?>
+            <option value="<?= htmlspecialchars($ref['id']) ?>" 
+              <?= (isset($_SESSION['form_data']['referentiel']) && $_SESSION['form_data']['referentiel'] == $ref['id']) ? 'selected' : '' ?>>
+              <?= htmlspecialchars($ref['libelle']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        <label class="label">
+          <span class="label-text-alt text-error" id="referentiel-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Date de début</span>
+        </label>
+        <input type="date" name="date_debut" id="date_debut" required
+          value="<?= htmlspecialchars($_SESSION['form_data']['date_debut'] ?? '') ?>"
+          class="input input-bordered w-full <?= isset($_SESSION['errors']['date_debut']) ? 'input-error' : '' ?>">
+        <label class="label">
+          <span class="label-text-alt text-error" id="date_debut-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Date de fin</span>
+        </label>
+        <input type="date" name="date_fin" id="date_fin" required
+          value="<?= htmlspecialchars($_SESSION['form_data']['date_fin'] ?? '') ?>"
+          class="input input-bordered w-full <?= isset($_SESSION['errors']['date_fin']) ? 'input-error' : '' ?>">
+        <label class="label">
+          <span class="label-text-alt text-error" id="date_fin-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Photo de la promotion</span>
+        </label>
+        <input type="file" name="photo" id="photo" accept="image/*" required
+          class="file-input file-input-bordered w-full <?= isset($_SESSION['errors']['photo']) ? 'file-input-error' : '' ?>">
+        <label class="label">
+          <span class="label-text-alt text-error" id="photo-error"></span>
+        </label>
+      </div>
+
+      <div class="modal-action">
+        <button type="button" class="btn" onclick="document.getElementById('modal-ajout-promotion').close()">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+document.getElementById('promotionForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Réinitialiser les messages d'erreur
+  document.querySelectorAll('.label-text-alt').forEach(el => el.textContent = '');
+  
+  let isValid = true;
+  const promotion = document.getElementById('promotion');
+  const referentiel = document.getElementById('referentiel');
+  const dateDebut = document.getElementById('date_debut');
+  const dateFin = document.getElementById('date_fin');
+  
+  // Validation du nom de la promotion
+  if (promotion.value.length < 3) {
+    document.getElementById('promotion-error').textContent = 'Le nom doit contenir au moins 3 caractères';
+    isValid = false;
+  }
+  
+  // Validation du référentiel
+  if (!referentiel.value) {
+    document.getElementById('referentiel-error').textContent = 'Veuillez sélectionner un référentiel';
+    isValid = false;
+  }
+  
+  // Validation des dates
+  if (!dateDebut.value) {
+    document.getElementById('date_debut-error').textContent = 'Veuillez sélectionner une date de début';
+    isValid = false;
+  }
+  
+  if (!dateFin.value) {
+    document.getElementById('date_fin-error').textContent = 'Veuillez sélectionner une date de fin';
+    isValid = false;
+  }
+  
+  // Vérifier que la date de fin est après la date de début
+  if (dateDebut.value && dateFin.value && new Date(dateFin.value) <= new Date(dateDebut.value)) {
+    document.getElementById('date_fin-error').textContent = 'La date de fin doit être postérieure à la date de début';
+    isValid = false;
+  }
+  
+  if (isValid) {
+    this.submit();
+  }
+});
+</script>
+
+<?php
+// Nettoyer les données de session après l'affichage
+unset($_SESSION['errors']);
+unset($_SESSION['form_data']);
+?> 

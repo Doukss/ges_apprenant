@@ -10,9 +10,11 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
         <!-- Page Titre -->
         <div class="flex justify-between items-center mb-2">
           <h1 class="text-2xl font-bold text-[#F9CF98]">Promotion</h1>
-          <a href=""class="bg-[#F9CF98] text-[#87520E] px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600 transition">
-              <i class="ri-add-line">Ajouter promotion</i> 
+          <a href="">
           </a>
+          <button id="btn-ajout-promotion" class="bg-[#F9CF98] text-[#87520E] px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600 transition">
+              <i class="ri-add-line"></i> Ajouter promotion
+          </button>
         </div>
         <p class="text-sm text-gray-500 mb-4">Gérer les promotions de l'école</p>
 
@@ -108,6 +110,11 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
 
                     </div>
                     <div class="bg-gray-200 w-[10%] h-[10%] p-5 rounded-full">
+                      <?php if (!empty($promotion['photo'])): ?>
+                        <img src="data:image/jpeg;base64,<?= base64_encode($promotion['photo']) ?>" 
+                             alt="Photo de la promotion" 
+                             class="w-full h-full object-cover rounded-full">
+                      <?php endif; ?>
                     </div>
 
                  
@@ -144,7 +151,38 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
               </tr>
             </thead>
             <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
-
+              <?php foreach ($promotions as $promotion): ?>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="w-10 h-10 rounded-full bg-gray-200"></div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <?= htmlspecialchars($promotion["promotion"] ?? 'Non défini') ?>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <?= htmlspecialchars($promotion["date_debut"] ?? 'Non assigné') ?>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <?= htmlspecialchars($promotion["date_fin"] ?? 'Non assigné') ?>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <?= htmlspecialchars($promotion["referentiel"] ?? 'Non assigné') ?>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="badge badge-soft badge-<?= colorState($promotion["statut"]) ?>">
+                      <?= htmlspecialchars($promotion["statut"] ?? 'Non défini') ?>
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="?controllers=promotion&page=edit&id=<?= $promotion['id'] ?>" class="text-gray-600 hover:text-[#F9CF98] mr-3">
+                      <i class="ri-edit-line"></i>
+                    </a>
+                    <a href="?controllers=promotion&action=delete&id=<?= $promotion['id'] ?>" class="text-gray-600 hover:text-[#F9CF98]" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')">
+                      <i class="ri-delete-bin-line"></i>
+                    </a>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
             </tbody>
           </table>
         </div>
@@ -153,3 +191,130 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
   </main>
 
 </div>
+
+<!-- Modal d'ajout de promotion -->
+<dialog id="modal-ajout-promotion" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg mb-4">Ajouter une promotion</h3>
+    
+    <form action="?controllers=promotion&action=add" method="POST" class="space-y-4" id="promotionForm">
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Nom de la promotion</span>
+        </label>
+        <input type="text" name="promotion" id="promotion"
+          class="input input-bordered w-full " placeholder="promo" 
+          minlength="3" maxlength="50">
+        <label class="label">
+          <span class="label-text-alt text-error" id="promotion-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Référentiel</span>
+        </label>
+        <select name="referentiel" id="referentiel" 
+          class="select select-bordered w-full">
+          <option value="">Sélectionner un référentiel</option>
+          <?php foreach ($referentiels as $ref): ?>
+            <option value="<?= htmlspecialchars($ref['id']) ?>">
+              <?= htmlspecialchars($ref['libelle']) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        <label class="label">
+          <span class="label-text-alt text-error" id="referentiel-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Date de début</span>
+        </label>
+        <input type="date" name="date_debut" id="date_debut" 
+          class="input input-bordered w-full">
+        <label class="label">
+          <span class="label-text-alt text-error" id="date_debut-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Date de fin</span>
+        </label>
+        <input type="date" name="date_fin" id="date_fin" 
+          class="input input-bordered w-full">
+        <label class="label">
+          <span class="label-text-alt text-error" id="date_fin-error"></span>
+        </label>
+      </div>
+
+      <div class="modal-action">
+        <button type="button" class="btn" onclick="document.getElementById('modal-ajout-promotion').close()">Annuler</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+document.getElementById('btn-ajout-promotion').addEventListener('click', function() {
+  // Réinitialiser le formulaire et les messages d'erreur
+  document.getElementById('promotionForm').reset();
+  document.querySelectorAll('.label-text-alt').forEach(el => el.textContent = '');
+  document.getElementById('modal-ajout-promotion').showModal();
+});
+
+document.getElementById('promotionForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Réinitialiser les messages d'erreur
+  document.querySelectorAll('.label-text-alt').forEach(el => el.textContent = '');
+  
+  let isValid = true;
+  const promotion = document.getElementById('promotion');
+  const referentiel = document.getElementById('referentiel');
+  const dateDebut = document.getElementById('date_debut');
+  const dateFin = document.getElementById('date_fin');
+  
+  // Validation du nom de la promotion
+  if (promotion.value.length < 3) {
+    document.getElementById('promotion-error').textContent = 'Le nom est requie';
+    isValid = false;
+  }
+  
+  // Validation du référentiel
+  if (!referentiel.value) {
+    document.getElementById('referentiel-error').textContent = 'Veuillez sélectionner un référentiel';
+    isValid = false;
+  }
+  
+  // Validation des dates
+  if (!dateDebut.value) {
+    document.getElementById('date_debut-error').textContent = 'Veuillez sélectionner une date de début';
+    isValid = false;
+  }
+  
+  if (!dateFin.value) {
+    document.getElementById('date_fin-error').textContent = 'Veuillez sélectionner une date de fin';
+    isValid = false;
+  }
+  
+  // Vérifier que la date de fin est après la date de début
+  if (dateDebut.value && dateFin.value && new Date(dateFin.value) <= new Date(dateDebut.value)) {
+    document.getElementById('date_fin-error').textContent = 'La date de fin doit être postérieure à la date de début';
+    isValid = false;
+  }
+  
+  if (isValid) {
+    this.submit();
+  }
+});
+</script>
+
+<?php
+// Nettoyer les données de session après l'affichage
+unset($_SESSION['errors']);
+unset($_SESSION['form_data']);
+?>
