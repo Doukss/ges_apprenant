@@ -12,7 +12,7 @@
    <nav class="flex-1 space-y-6 text-sm">
      <a href="" class="flex items-center gap-2 hover:text-500"><i class="ri-dashboard-line"></i> Tableau de bord</a>
      <a href="" class="flex items-center gap-2 text-gray-500 font-bold h-10 bg-red-600 text-white shadow : hover:bg-[#F9CF98] rounded"><i class="ri-group-line"></i> Promotions</a>
-     <a href="#" class="flex items-center gap-2 text-gray-500"><i class="ri-booklet-line"></i> Referentiels</a>
+     <a href="<?= WEBROOB ?>?controllers=promotion&page=referentiel" class="flex items-center gap-2 text-gray-500"><i class="ri-booklet-line"></i> Referentiels</a>
    </nav>
    <a href="<?= WEBROOB ?>?controllers=login&page=deconnexion" class="mt-auto bg-white text-red-700 py-2 rounded flex items-center justify-center gap-2">
      <button>

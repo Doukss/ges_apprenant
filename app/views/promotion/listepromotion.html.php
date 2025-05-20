@@ -10,9 +10,9 @@ $view = $_GET['view'] ?? 'grille'; // valeur par défaut : grille
         <!-- Page Titre -->
         <div class="flex justify-between items-center mb-2">
           <h1 class="text-2xl font-bold text-[#F9CF98]">Promotion</h1>
-          <button class="bg-[#F9CF98] text-[#87520E] px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600 transition">
-            <i class="ri-add-line"></i> Ajouter promotion
-          </button>
+          <a href=""class="bg-[#F9CF98] text-[#87520E] px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-600 transition">
+              <i class="ri-add-line">Ajouter promotion</i> 
+          </a>
         </div>
         <p class="text-sm text-gray-500 mb-4">Gérer les promotions de l'école</p>
 
