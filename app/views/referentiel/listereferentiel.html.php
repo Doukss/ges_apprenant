@@ -22,7 +22,7 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
         <p class="text-sm text-gray-500 mb-4">Gérer les référentiels de l'école</p>
 
         <!-- Statistique -->
-        <div id="cardContainer" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-6 <?= $view === 'liste' ? 'hidden' : '' ?>">
+        <!-- <div id="cardContainer" class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-6 mb-6 <?= $view === 'liste' ? 'hidden' : '' ?>">
           <div class="bg-red-700 text-[#F9CF98] p-4 rounded-lg text-center shadow">
             <p class="text-2xl font-bold">
               <?= isset($stats["total_referentiel"]) ? htmlspecialchars($stats["total_referentiel"]) : 0 ?>
@@ -41,11 +41,11 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
             </p>
             <p>Référentiels Inactifs</p>
           </div>
-        </div>
+        </div> -->
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-6">
           <form method="GET" action="" class="flex items-center gap-4">
-            <input type="hidden" name="controllers" value="referentiel">
+            <input type="hidden" name="controller" value="referentiel">
             <input type="hidden" name="page" value="listeReferentiel">
             <input type="hidden" name="view" value="<?= htmlspecialchars($view) ?>">
             
@@ -53,29 +53,7 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
             
             <button type="submit" class="border border-gray-300 text-gray-400 px-4 py-1 rounded">Rechercher</button>
 
-            <select name="per_page" onchange="this.form.submit()" class="border px-2 py-1 rounded">
-              <option value="6" <?= $items_per_page == 6 ? 'selected' : '' ?>>6 par page</option>
-              <option value="12" <?= $items_per_page == 12 ? 'selected' : '' ?>>12 par page</option>
-              <option value="24" <?= $items_per_page == 24 ? 'selected' : '' ?>>24 par page</option>
-              <option value="48" <?= $items_per_page == 48 ? 'selected' : '' ?>>48 par page</option>
-            </select>
-          </form>
-
-          <div class="flex gap-2 p-6">
-            <div>
-              <select name="statusFilter" id="statusFilter" class="px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-orange-400">
-                <option value="all">Tous</option>
-                <option value="active">Actif</option>
-                <option value="inactive">Inactif</option>
-              </select>
-            </div>
-            <a href="?controllers=referentiel&page=listeReferentiel&view=grille" class="<?= $view === 'grille' ? 'bg-[#F9CF98] text-white' : 'bg-gray-200' ?> p-2 rounded hover:bg-red-600 transition" aria-label="Vue grille">
-              Grille
-            </a>
-            <a href="?controllers=referentiel&page=listeReferentiel&view=liste" class="<?= $view === 'liste' ? 'bg-[#F9CF98] text-white' : 'bg-gray-200' ?> p-2 rounded hover:bg-red-600 transition" aria-label="Vue liste">
-              Liste
-            </a>
-          </div>
+          </form>        
         </div>
 
         <!-- Vue Grille -->
@@ -91,28 +69,42 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
           <?php else: ?>
             <?php foreach ($referentiels_page as $referentiel): ?>
               <div class="relative bg-white rounded-2xl overflow-hidden shadow-lg border transition-all duration-500 group transform hover:-translate-y-2 border border-gray-100">
+                <!-- Image du référentiel -->
+                <div class="h-40 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
+                   <img src="assets/images/milkos.jpg" alt="<?= htmlspecialchars($referentiel["libelle"] ?? 'Référentiel') ?>" 
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PGNpcmNsZSBjeD0iOC41IiBjeT0iOC41IiByPSIxLjUiPjwvY2lyY2xlPjxwb2x5bGluZSBwb2ludHM9IjIxIDE1IDEzIDEwIDUgMjEgNSAzIj48L3BvbHlsaW5lPjwvc3ZnPg=='">
+                </div>
+                
                 <div class="p-5 pt-6">
                   <div class="flex justify-between items-start mb-4">
                     <div>
                       <h3 class="text-xl font-bold text-gray-700">
                         <?= htmlspecialchars($referentiel["libelle"] ?? 'Non défini') ?>
                       </h3>
-                      <p class="text-sm text-gray-500 mt-1">
+                      <p class="text-sm text-gray-500 mt-1 line-clamp-2">
                         <?= htmlspecialchars($referentiel["description"] ?? 'Aucune description') ?>
                       </p>
                     </div>
                   </div>
-                  <div class="mb-4">
-                    <span class="inline-block px-3 py-1 rounded-full text-md font-medium text-gray-400">
-                      <?= htmlspecialchars($referentiel["nombre_promotions"] ?? '0') ?> Promotions
-                    </span>
-                  </div>
-                  <div>
-                    <p class="text-sm text-red-900">
-                      <span class="badge badge-soft badge-<?= colorState($referentiel["statut"]) ?>">
-                        <?= htmlspecialchars($referentiel["statut"] ?? 'Non défini') ?>
+                  
+                  <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                      <i class="ri-user-line text-gray-400"></i>
+                      <span class="text-sm text-gray-500">
+                        Capacité: <?= htmlspecialchars($referentiel["capacite"] ?? '50') ?> places
                       </span>
-                    </p>
+                    </div>
+                    
+                    <!-- Actions au survol -->
+                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+                      <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors" title="Modifier">
+                        <i class="ri-pencil-line"></i>
+                      </button>
+                      <button class="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors" title="Supprimer">
+                        <i class="ri-delete-bin-line"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -120,64 +112,43 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
           <?php endif; ?>
         </div>
 
-        <!-- Vue Liste -->
-        <div id="tableContainer" class="<?= $view === 'liste' ? '' : 'hidden' ?> bg-white rounded-lg shadow overflow-hidden">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Libellé</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre de Promotions</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
-              <?php foreach ($referentiels_page as $referentiel): ?>
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <?= htmlspecialchars($referentiel["libelle"] ?? 'Non défini') ?>
-                  </td>
-                  <td class="px-6 py-4">
-                    <?= htmlspecialchars($referentiel["description"] ?? 'Aucune description') ?>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <?= htmlspecialchars($referentiel["nombre_promotions"] ?? '0') ?>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="badge badge-soft badge-<?= colorState($referentiel["statut"]) ?>">
-                      <?= htmlspecialchars($referentiel["statut"] ?? 'Non défini') ?>
-                    </span>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
+       
       </div>
     </div>
   </main>
 </div>
+
+<script>
+  // Confirmation avant suppression
+  document.querySelectorAll('.ri-delete-bin-line').forEach(icon => {
+    icon.closest('button').addEventListener('click', function(e) {
+      if(!confirm('Êtes-vous sûr de vouloir supprimer ce référentiel ?')) {
+        e.preventDefault();
+      }
+    });
+  });
+</script>
 
 <!-- Pagination -->
 <div class="flex justify-center mt-6 mb-6">
   <div class="flex space-x-2">
     <?php if ($total_pages > 1): ?>
       <?php if ($current_page > 1): ?>
-        <a href="?controllers=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $current_page - 1 ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
+        <a href="?controller=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $current_page - 1 ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
            class="px-4 py-2 bg-[#F9CF98] text-white rounded hover:bg-red-600 transition">
           Précédent
         </a>
       <?php endif; ?>
 
       <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-        <a href="?controllers=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $i ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
+        <a href="?controller=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $i ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
            class="px-4 py-2 <?= $i === $current_page ? 'bg-red-600 text-white' : 'bg-[#F9CF98] text-white' ?> rounded hover:bg-red-600 transition">
           <?= $i ?>
         </a>
       <?php endfor; ?>
 
       <?php if ($current_page < $total_pages): ?>
-        <a href="?controllers=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $current_page + 1 ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
+        <a href="?controller=referentiel&page=listeReferentiel&view=<?= $view ?>&page_num=<?= $current_page + 1 ?>&per_page=<?= $items_per_page ?><?= isset($_GET['search']) ? '&search=' . htmlspecialchars($_GET['search']) : '' ?>" 
            class="px-4 py-2 bg-[#F9CF98] text-white rounded hover:bg-red-600 transition">
           Suivant
         </a>
@@ -191,7 +162,7 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
   <div class="modal-box">
     <h3 class="font-bold text-lg mb-4">Ajouter un référentiel</h3>
     
-    <form action="?controllers=referentiel&action=add" method="POST" class="space-y-4" id="referentielForm">
+    <form action="?controller=referentiel&action=add" method="POST" class="space-y-4" id="referentielForm">
       <div class="form-control w-full">
         <label class="label">
           <span class="label-text">Libellé</span>

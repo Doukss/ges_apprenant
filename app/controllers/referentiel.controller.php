@@ -1,7 +1,5 @@
 <?php
 require_once "../app/boostrap/boostrap.php";
-require_once "../app/models/referentiel.model.php";
-
 if (isset($_REQUEST["page"])) {
     $page = $_REQUEST["page"];
     $errors = [];
@@ -9,7 +7,7 @@ if (isset($_REQUEST["page"])) {
     if ($page == "listeReferentiel") {
         $referentiels = findAllReferentiels();
         $stats = getReferentielStats();
-        RenderView("referentiel/listeReferentiel", [
+        RenderView("referentiel/listereferentiel", [
             'referentiels' => $referentiels,
             'stats' => $stats
         ], "base.layout");

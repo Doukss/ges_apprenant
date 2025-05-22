@@ -6,7 +6,8 @@ require_once "../app/models/model.php";
 function route() {
     $controllers = [
         "promotion" => "../app/controllers/promotion.controller.php",
-        "login" => "../app/controllers/login.controller.php"
+        "login" => "../app/controllers/login.controller.php",
+        "referentiel" => "../app/controllers/referentiel.controller.php"
     ];
 
     $controller = $_GET["controllers"] ?? "login";
