@@ -7,7 +7,8 @@ function route() {
     $controllers = [
         "promotion" => "../app/controllers/promotion.controller.php",
         "login" => "../app/controllers/login.controller.php",
-        "referentiel" => "../app/controllers/referentiel.controller.php"
+        "referentiel" => "../app/controllers/referentiel.controller.php",
+        "apprenant" => "../app/controllers/apprenant.controller.php"
     ];
 
     $controller = $_GET["controllers"] ?? "login";

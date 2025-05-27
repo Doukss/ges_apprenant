@@ -14,6 +14,12 @@
   <nav class="flex-1">
     <ul class="space-y-2">
       <li>
+        <a href="<?= WEBROOB ?>?controllers=referentiel&page=listeReferentiel" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-200">
+          <i class="ri-book-2-line"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
         <a href="<?= WEBROOB ?>?controllers=promotion&page=listepromotion" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-200">
           <i class="ri-group-line"></i>
           <span>Promotion</span>
@@ -23,6 +29,12 @@
         <a href="<?= WEBROOB ?>?controllers=referentiel&page=listeReferentiel" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-200">
           <i class="ri-book-2-line"></i>
           <span>Référentiel</span>
+        </a>
+      </li>
+      <li>
+        <a href="<?= WEBROOB ?>?controllers=apprenant&page=listeApprenants" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-200">
+          <i class="ri-user-line"></i>
+          <span>Apprenants</span>
         </a>
       </li>
     </ul>

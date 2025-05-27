@@ -251,6 +251,17 @@ $totalPages = $pagination['total_pages'];
         </label>
       </div>
 
+      <div class="form-control ">
+        <label class="label">
+          <span class="label-text">Images</span>
+        </label>
+        <input type="file" name="image" id="image"
+          class="input input-bordered w-full " placeholder="">
+        <label class="label">
+          <span class="label-text-alt text-error" id="image-error"></span>
+        </label>
+      </div>
+
       <div class="form-control w-full">
         <label class="label">
           <span class="label-text">Référentiel</span>
@@ -293,7 +304,7 @@ $totalPages = $pagination['total_pages'];
 
       <div class="modal-action">
         <button type="button" class="btn" onclick="document.getElementById('modal-ajout-promotion').close()">Annuler</button>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="submit" class="btn btn-primary bg-[#F9CF98] w-24">Enregistrer</button>
       </div>
     </form>
   </div>
@@ -329,6 +340,11 @@ document.getElementById('promotionForm').addEventListener('submit', function(e) 
   
   if (!dateDebut.value) {
     document.getElementById('date_debut-error').textContent = 'Veuillez sélectionner une date de début';
+    isValid = false;
+  }
+
+  if (!image.value) {
+    document.getElementById('image-error').textContent = 'Veuillez sélectionner une image';
     isValid = false;
   }
   

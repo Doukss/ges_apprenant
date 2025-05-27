@@ -97,14 +97,14 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
                     </div>
                     
                     <!-- Actions au survol -->
-                    <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+                    <!-- <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
                       <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors" title="Modifier">
                         <i class="ri-pencil-line"></i>
                       </button>
                       <button class="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors" title="Supprimer">
                         <i class="ri-delete-bin-line"></i>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -177,6 +177,30 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
 
       <div class="form-control w-full">
         <label class="label">
+          <span class="label-text">Capacité</span>
+        </label>
+        <input type="number" name="capacite" id="capacite"
+          class="input input-bordered w-full" placeholder="La capacite" 
+          minlength="3" maxlength="50">
+        <label class="label">
+          <span class="label-text-alt text-error" id="capacite-error"></span>
+        </label>
+      </div>
+
+       <div class="form-control w-full">
+        <label class="label">
+          <span class="label-text">Image</span>
+        </label>
+        <input type="file" name="capacite" id="img"
+          class="input input-bordered w-full" 
+          minlength="3" maxlength="50">
+        <label class="label">
+          <span class="label-text-alt text-error" id="img-error"></span>
+        </label>
+      </div>
+
+      <div class="form-control w-full">
+        <label class="label">
           <span class="label-text">Description</span>
         </label>
         <textarea name="description" id="description" 
@@ -190,7 +214,7 @@ $referentiels_page = array_slice($referentiels, $offset, $items_per_page);
 
       <div class="modal-action">
         <button type="button" class="btn" onclick="document.getElementById('modal-ajout-referentiel').close()">Annuler</button>
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="submit" class="btn btn-primary bg-red-400">Enregistrer</button>
       </div>
     </form>
   </div>
@@ -217,6 +241,16 @@ document.getElementById('referentielForm').addEventListener('submit', function(e
   // Validation du libellé
   if (libelle.value.length < 3) {
     document.getElementById('libelle-error').textContent = 'Le libellé doit contenir au moins 3 caractères';
+    isValid = false;
+  }
+
+  if (capacite.value.length < 1) {
+    document.getElementById('capacite-error').textContent = 'Veuiller rensegner la capacité';
+    isValid = false;
+  }
+
+  if (img.value.length < 1) {
+    document.getElementById('img-error').textContent = 'Veuiller enregistrer une image';
     isValid = false;
   }
   
